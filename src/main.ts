@@ -7,11 +7,13 @@ class PhotoData {
   public filePath: string;
   public height: number;
   public width: number;
+  public timestamp: string;
 
-  constructor(filePath: string, height: number, width: number) {
+  constructor(filePath: string, height: number, width: number, timestamp: string) {
     this.filePath = filePath;
     this.height = height;
     this.width = width;
+    this.timestamp = timestamp;
   }
 }
 
@@ -21,8 +23,20 @@ async function initGallery() {
     const response = await fetch('https://raw.githubusercontent.com/MontesOwn/the-megs-wedding/refs/heads/main/photos.json');
     const data = await response.json();
     const photos: PhotoData[] = data.map(
-      (item: any) => new PhotoData(item.filePath, item.height, item.width)
+      (item: any) => new PhotoData(item.filePath, item.height, item.width, item.timestamp)
     );
+    photos.sort((a, b) => {
+      if (!a.timestamp && !b.timestamp) return 0;
+      if (!a.timestamp) return 1;
+      if (!b.timestamp) return -1;
+
+      const normalizeDate = (ts: string) => new Date(ts.replace(/^(\d{4}):(\d{2}):(\d{2})/, '$1-$2-$3'));
+
+      const dateA = normalizeDate(a.timestamp);
+      const dateB = normalizeDate(b.timestamp);
+
+      return dateB.getTime() - dateA.getTime();
+    });
 
     let htmlContent = '';
     photos.forEach(photo => {
