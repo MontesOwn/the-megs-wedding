@@ -1,7 +1,6 @@
 import PhotoSwipeLightbox from 'photoswipe/lightbox';
 import 'photoswipe/style.css';
 
-const main = document.querySelector("main") as HTMLElement;
 const galleryContainer = document.getElementById('gallery') as HTMLElement;
 
 class PhotoData {
@@ -17,12 +16,13 @@ class PhotoData {
 }
 
 async function initGallery() {
-  
 
   try {
     const response = await fetch('photos.json');
     const data = await response.json();
-    const photos: PhotoData[] = data.map((item: PhotoData) => new PhotoData(item.filePath, item.height, item.width));
+    const photos: PhotoData[] = data.map(
+      (item: any) => new PhotoData(item.filePath, item.height, item.width)
+    );
 
     let htmlContent = '';
     photos.forEach(photo => {
@@ -43,6 +43,33 @@ async function initGallery() {
       gallery: '#gallery',
       children: 'a',
       pswpModule: () => import('photoswipe')
+    });
+
+    lightbox.on('uiRegister', () => {
+      if (!lightbox.pswp || !lightbox.pswp.ui) return;
+
+      lightbox.pswp.ui.registerElement({
+        name: 'download-button',
+        order: 8,
+        isButton: true,
+        tagName: 'a',
+        html: {
+          isCustomSVG: true,
+          inner: '<path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" id="pswp__icn-material-download"/>',
+          outlineID: 'pswp__icn-material-download'
+        },
+        onInit: (el, pswp) => {
+          el.setAttribute('download', '');
+          el.setAttribute('target', '_blank');
+          el.setAttribute('rel', 'noopener');
+
+          pswp.on('change', () => {
+            if (pswp.currSlide?.data.src) {
+              (el as HTMLAnchorElement).href = pswp.currSlide.data.src as string;
+            }
+          });
+        }
+      });
     });
 
     lightbox.init();
