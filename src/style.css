@@ -144,3 +144,27 @@ header p {
     opacity: 1;
   }
 }
+
+.disco-ball {
+  position: absolute;
+  top: -5px;
+  right: 10rem;
+  width: clamp(60px, 8vw, 160px);
+  height: auto;
+  
+  z-index: 100;
+  pointer-events: none;
+  
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.15));
+}
+
+header {
+  padding-right: 80px; 
+}
+
+@media (min-width: 768px) {
+  header {
+    padding-right: 0;
+  }
+}
