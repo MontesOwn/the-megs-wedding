@@ -18,7 +18,7 @@ class PhotoData {
 async function initGallery() {
 
   try {
-    const response = await fetch('photos.json');
+    const response = await fetch('https://raw.githubusercontent.com/MontesOwn/the-megs-wedding/refs/heads/main/photos.json');
     const data = await response.json();
     const photos: PhotoData[] = data.map(
       (item: any) => new PhotoData(item.filePath, item.height, item.width)
