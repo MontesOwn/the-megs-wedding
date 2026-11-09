@@ -177,3 +177,14 @@ header {
     column-width: 280px;
   }
 }
+
+footer {
+  text-align: center;
+}
+
+footer a {
+  color: lightskyblue;
+}
+footer a:hover {
+  color: lightblue;
+}
