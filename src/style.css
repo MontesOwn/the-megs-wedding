@@ -19,6 +19,8 @@
     --shadow-color: rgba(168, 85, 247, 0.15);
     --hover-shadow: rgba(236, 72, 153, 0.35);
     --border-glow: rgba(236, 72, 153, 0.6);
+    --link: #58afdd;
+    --link-hover: #6abce2;
   }
 }
 
@@ -32,6 +34,8 @@
     --shadow-color: rgba(168, 85, 247, 0.15);
     --hover-shadow: rgba(236, 72, 153, 0.35);
     --border-glow: rgba(236, 72, 153, 0.6);
+    --link: #58afdd;
+    --link-hover: #6abce2;
   }
 }
 
@@ -71,6 +75,14 @@ header p {
   font-weight: 300;
 }
 
+header a, footer a {
+  color: var(--link);
+}
+
+header a:hover, footer a:hover {
+  color: var(--link-hover);
+}
+
 .material-symbols-outlined {
   font-variation-settings:
     "FILL" 0,
@@ -80,17 +92,17 @@ header p {
   vertical-align: middle !important;
 }
 
-.my-gallery {
-  column-width: 100px;
-  column-gap: 20px;
-  padding: 24px 20px 60px 20px;
-  margin: 0 auto;
+#gallery {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-.my-gallery a {
+#gallery a {
   display: block;
   position: relative;
-  margin-bottom: 20px;
   break-inside: avoid;
   overflow: hidden;
   border-radius: 16px;
@@ -103,7 +115,7 @@ header p {
     border-color 0.35s ease;
 }
 
-.my-gallery a::after {
+#gallery a::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -114,11 +126,11 @@ header p {
   z-index: 1;
 }
 
-.my-gallery a:hover::after {
+#gallery a:hover::after {
   opacity: 1;
 }
 
-.my-gallery a:hover {
+#gallery a:hover {
   transform: translateY(-6px) scale(1.01);
   border-color: var(--border-glow);
   box-shadow:
@@ -126,16 +138,16 @@ header p {
     0 0 20px rgba(255, 255, 255, 0.15);
 }
 
-.my-gallery img {
-  width: 100%;
-  height: auto;
+#gallery img {
+  height: 200px;
+  width: auto;
   display: block;
   opacity: 0;
   animation: fadeIn 0.6s ease forwards;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.my-gallery a:hover img {
+#gallery a:hover img {
   transform: scale(1.06);
 }
 
@@ -164,7 +176,7 @@ header {
 }
 
 @media (min-width: 550px) {
-  .my-gallery {
+  #gallery {
     column-width: 150px;
   }
 }
@@ -173,18 +185,11 @@ header {
   header {
     padding-right: 0;
   }
-  .my-gallery {
+  #gallery {
     column-width: 280px;
   }
 }
 
 footer {
   text-align: center;
-}
-
-footer a {
-  color: lightskyblue;
-}
-footer a:hover {
-  color: lightblue;
 }
