@@ -4,12 +4,14 @@ import 'photoswipe/style.css';
 const galleryContainer = document.getElementById('gallery') as HTMLElement;
 
 class PhotoData {
+  public thumbnailPath: string;
   public filePath: string;
   public height: number;
   public width: number;
-  public timestamp: string;
+  public timestamp: string | null;
 
-  constructor(filePath: string, height: number, width: number, timestamp: string) {
+  constructor(thumbnailPath: string, filePath: string, height: number, width: number, timestamp: string | null) {
+    this.thumbnailPath = thumbnailPath;
     this.filePath = filePath;
     this.height = height;
     this.width = width;
@@ -18,13 +20,15 @@ class PhotoData {
 }
 
 async function initGallery() {
-
   try {
     const response = await fetch('https://raw.githubusercontent.com/MontesOwn/the-megs-wedding/refs/heads/main/photos.json');
     const data = await response.json();
+    
+    // Map JSON data correctly to include thumbnailPath
     const photos: PhotoData[] = data.map(
-      (item: any) => new PhotoData(item.filePath, item.height, item.width, item.timestamp)
+      (item: any) => new PhotoData(item.thumbnailPath, item.filePath, item.height, item.width, item.timestamp)
     );
+
     photos.sort((a, b) => {
       if (!a.timestamp && !b.timestamp) return 0;
       if (!a.timestamp) return 1;
@@ -46,7 +50,7 @@ async function initGallery() {
            data-pswp-height="${photo.height}" 
            target="_blank" 
            rel="noreferrer">
-          <img src="${photo.filePath}" alt="Gallery photo" loading="lazy" />
+          <img src="${photo.thumbnailPath}" alt="Wedding photo" loading="lazy" />
         </a>
       `;
     });
