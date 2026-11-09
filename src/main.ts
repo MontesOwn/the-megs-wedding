@@ -19,12 +19,28 @@ class PhotoData {
   }
 }
 
+function getRowSpan(width: number, height: number): number {
+  const screenWidth = window.innerWidth;
+  const isMobile = screenWidth < 600;
+  const cols = isMobile ? 3 : Math.max(3, Math.floor((screenWidth - 32) / 200));
+  const gap = isMobile ? 8 : (screenWidth >= 1024 ? 16 : 12);
+  const padding = isMobile ? 16 : 32;
+  
+  const availableWidth = screenWidth - padding - (gap * (cols - 1));
+  const colWidth = availableWidth / cols;
+  
+  const rowHeight = 5;
+  const renderedHeight = colWidth * (height / width);
+  const totalSpan = Math.ceil((renderedHeight + gap) / (rowHeight + gap));
+  
+  return Math.max(totalSpan, 8);
+}
+
 async function initGallery() {
   try {
     const response = await fetch('https://raw.githubusercontent.com/MontesOwn/the-megs-wedding/refs/heads/main/photos.json');
     const data = await response.json();
     
-    // Map JSON data correctly to include thumbnailPath
     const photos: PhotoData[] = data.map(
       (item: any) => new PhotoData(item.thumbnailPath, item.filePath, item.height, item.width, item.timestamp)
     );
@@ -44,13 +60,18 @@ async function initGallery() {
 
     let htmlContent = '';
     photos.forEach(photo => {
+      const rowSpan = getRowSpan(photo.width, photo.height);
+      const altArr = photo.filePath.split("/")
+      const alt = altArr[altArr.length - 1];
+
       htmlContent += `
         <a href="${photo.filePath}" 
+           style="grid-row-end: span ${rowSpan};"
            data-pswp-width="${photo.width}" 
            data-pswp-height="${photo.height}" 
            target="_blank" 
            rel="noreferrer">
-          <img src="${photo.thumbnailPath}" alt="Wedding photo" loading="lazy" />
+          <img src="${photo.thumbnailPath}" alt='${alt}' loading="lazy" />
         </a>
       `;
     });

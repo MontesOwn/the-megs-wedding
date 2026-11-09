@@ -1,4 +1,4 @@
-@import "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0";
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0");
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300..700&display=swap");
 
 *,
@@ -9,34 +9,17 @@
   margin: 0;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --body-background: #090710;
-    --card-background: #151122;
-    --main-color: #f3e8ff;
-    --subtext-color: #a78bfa;
-    --accent-gradient: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #3b82f6 100%);
-    --shadow-color: rgba(168, 85, 247, 0.15);
-    --hover-shadow: rgba(236, 72, 153, 0.35);
-    --border-glow: rgba(236, 72, 153, 0.6);
-    --link: #58afdd;
-    --link-hover: #6abce2;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --body-background: #090710;
-    --card-background: #151122;
-    --main-color: #f3e8ff;
-    --subtext-color: #a78bfa;
-    --accent-gradient: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #3b82f6 100%);
-    --shadow-color: rgba(168, 85, 247, 0.15);
-    --hover-shadow: rgba(236, 72, 153, 0.35);
-    --border-glow: rgba(236, 72, 153, 0.6);
-    --link: #58afdd;
-    --link-hover: #6abce2;
-  }
+:root {
+  --body-background: #090710;
+  --card-background: #151122;
+  --main-color: #f3e8ff;
+  --subtext-color: #a78bfa;
+  --accent-gradient: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #3b82f6 100%);
+  --shadow-color: rgba(168, 85, 247, 0.15);
+  --hover-shadow: rgba(236, 72, 153, 0.35);
+  --border-glow: rgba(236, 72, 153, 0.6);
+  --link: #58afdd;
+  --link-hover: #6abce2;
 }
 
 body {
@@ -53,7 +36,7 @@ body {
 
 header {
   text-align: center;
-  padding: 56px 20px 28px 20px;
+  padding: 56px 80px 28px 20px;
   max-width: 900px;
   margin: 0 auto;
 }
@@ -75,11 +58,13 @@ header p {
   font-weight: 300;
 }
 
-header a, footer a {
+header a, 
+footer a {
   color: var(--link);
 }
 
-header a:hover, footer a:hover {
+header a:hover, 
+footer a:hover {
   color: var(--link-hover);
 }
 
@@ -93,22 +78,23 @@ header a:hover, footer a:hover {
 }
 
 #gallery {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 5px;
+  gap: 8px;
+  padding: 0 8px 60px 8px;
+  max-width: 1600px;
+  margin: 0 auto;
 }
 
 #gallery a {
   display: block;
   position: relative;
-  break-inside: avoid;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 8px;
   background-color: var(--card-background);
   border: 1px solid rgba(168, 85, 247, 0.15);
-  box-shadow: 0 8px 24px var(--shadow-color);
+  box-shadow: 0 4px 12px var(--shadow-color);
   transition:
     transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
@@ -131,16 +117,18 @@ header a:hover, footer a:hover {
 }
 
 #gallery a:hover {
-  transform: translateY(-6px) scale(1.01);
+  transform: translateY(-4px) scale(1.01);
   border-color: var(--border-glow);
   box-shadow:
     0 20px 40px -10px var(--hover-shadow),
     0 0 20px rgba(255, 255, 255, 0.15);
+  z-index: 2;
 }
 
 #gallery img {
-  height: 200px;
-  width: auto;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
   opacity: 0;
   animation: fadeIn 0.6s ease forwards;
@@ -148,12 +136,35 @@ header a:hover, footer a:hover {
 }
 
 #gallery a:hover img {
-  transform: scale(1.06);
+  transform: scale(1.05);
 }
 
 @keyframes fadeIn {
   to {
     opacity: 1;
+  }
+}
+
+@media (min-width: 600px) {
+  #gallery {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    padding: 0 16px 60px 16px;
+  }
+  #gallery a {
+    border-radius: 12px;
+    box-shadow: 0 6px 18px var(--shadow-color);
+  }
+}
+
+@media (min-width: 1024px) {
+  #gallery {
+    gap: 16px;
+    padding: 0 20px 80px 20px;
+  }
+  #gallery a {
+    border-radius: 16px;
+    box-shadow: 0 8px 24px var(--shadow-color);
   }
 }
 
@@ -163,33 +174,20 @@ header a:hover, footer a:hover {
   right: 10rem;
   width: clamp(60px, 8vw, 160px);
   height: auto;
-
   z-index: 100;
   pointer-events: none;
-
   transition: transform 0.3s ease;
   filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.15));
 }
 
-header {
-  padding-right: 80px;
-}
-
-@media (min-width: 550px) {
-  #gallery {
-    column-width: 150px;
-  }
-}
-
 @media (min-width: 768px) {
   header {
-    padding-right: 0;
-  }
-  #gallery {
-    column-width: 280px;
+    padding-right: 20px;
   }
 }
 
 footer {
   text-align: center;
+  padding: 20px;
+  color: var(--subtext-color);
 }
